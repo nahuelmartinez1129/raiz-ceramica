@@ -1,0 +1,303 @@
+@import "tailwindcss";
+
+/* ---------- Identidad visual ---------- */
+@theme {
+  --color-cream: #f7f3ec;
+  --color-sand: #e8ddcc;
+  --color-sand-deep: #d9cab3;
+  --color-terracotta: #b76e52;
+  /* Variante oscura de terracota: contraste AA para textos y botones. */
+  --color-terracotta-deep: #9a5439;
+  --color-earth: #40352e;
+  --color-earth-soft: #6b5d52;
+  --color-olive: #73775a;
+  --color-olive-deep: #5a5e44;
+  --color-warm-white: #fffefa;
+
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-up: fade-up 0.9s var(--ease-soft) both;
+  --animate-fade-in: fade-in 1.2s var(--ease-soft) both;
+}
+
+/* Definidos fuera de @theme para que estén siempre disponibles
+   (también en .reveal y en los paneles laterales). */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-earth);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-terracotta);
+    color: var(--color-warm-white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-terracotta-deep);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Compensa la cabecera fija al saltar a anclas (#contacto, etc.). */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  dialog {
+    color: inherit;
+  }
+
+  dialog::backdrop {
+    background: rgb(64 53 46 / 0.45);
+    backdrop-filter: blur(2px);
+  }
+}
+
+/* ---------- Componentes reutilizables ---------- */
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 3rem;
+    }
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-terracotta-deep);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition:
+      background-color 0.3s var(--ease-soft),
+      color 0.3s var(--ease-soft),
+      border-color 0.3s var(--ease-soft),
+      transform 0.3s var(--ease-soft);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background-color: var(--color-earth);
+    color: var(--color-warm-white);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-terracotta-deep);
+  }
+
+  .btn-accent {
+    background-color: var(--color-terracotta-deep);
+    color: var(--color-warm-white);
+  }
+  .btn-accent:hover {
+    background-color: var(--color-earth);
+  }
+
+  .btn-outline {
+    border: 1px solid currentColor;
+    color: var(--color-earth);
+    background-color: transparent;
+  }
+  .btn-outline:hover {
+    background-color: var(--color-earth);
+    border-color: var(--color-earth);
+    color: var(--color-warm-white);
+  }
+
+  .btn-whatsapp {
+    background-color: var(--color-olive-deep);
+    color: var(--color-warm-white);
+  }
+  .btn-whatsapp:hover {
+    background-color: var(--color-earth);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-soft);
+  }
+  .link-underline:hover,
+  .link-underline[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+
+  /* Textura de grano sutil para fondos editoriales. */
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.2 0 0 0 0 0.18 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ---------- Paneles laterales (carrito y menú móvil) ---------- */
+.side-panel {
+  margin: 0;
+  margin-left: auto;
+  height: 100dvh;
+  max-height: 100dvh;
+  width: min(100vw, 28rem);
+  max-width: 100vw;
+  padding: 0;
+  border: 0;
+  background: var(--color-warm-white);
+  box-shadow: -24px 0 60px rgb(64 53 46 / 0.18);
+  overscroll-behavior: contain;
+}
+.side-panel[data-side="left"] {
+  margin-left: 0;
+  margin-right: auto;
+  box-shadow: 24px 0 60px rgb(64 53 46 / 0.18);
+}
+.side-panel[open] {
+  animation: panel-in-right 0.45s var(--ease-soft);
+}
+.side-panel[data-side="left"][open] {
+  animation-name: panel-in-left;
+}
+.side-panel[open]::backdrop {
+  animation: fade-in 0.35s ease both;
+}
+
+@keyframes panel-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes panel-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Bloquea el scroll del fondo mientras un panel está abierto. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* ---------- Revelado al hacer scroll (solo CSS, sin JS) ---------- */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+/* ---------- Detalles / acordeón ---------- */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    animation: none !important;
+  }
+}
